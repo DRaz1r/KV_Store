@@ -34,7 +34,10 @@ int recv_cb(int clientfd, int event, void* arg);
 // 回调函数：发送数据
 int send_cb(int clientfd, int event, void* arg);
 
-// 单个连接
+/*
+ * 表示单个连接的结构体
+ * 包含了连接的文件描述符（fd），读写缓冲区及其大小回调函数等
+*/
 typedef struct zv_connect_s{
     // 本连接的客户端fd
     int fd;
@@ -48,13 +51,19 @@ typedef struct zv_connect_s{
     ZV_CALLBACK cb;
 }zv_connect;
 
-// 连接块的头
+/*
+ * 连接块的头部，用于管理一组zv_connect结构体。
+ * 它支持动态增长，每当现有的块不足以容纳更多连接时，会创建新的连接块
+*/
 typedef struct zv_connblock_s{
     struct zv_connect_s *block;  // 指向的当前块，注意大小为 connblock_size
     struct zv_connblock_s *next;  // 指向的下一个连接块的头
 }zv_connblock;
 
-// 反应堆结构体
+/*
+ * 反应堆结构体
+ * 包含了epoll的文件描述符、连接块链表的头部以及连接块的数量
+*/
 typedef struct zv_reactor_s{
     int epfd;   // epoll文件描述符
     // struct epoll_event events[epoll_events_size];  // 就绪事件集合
@@ -62,19 +71,25 @@ typedef struct zv_reactor_s{
     int blkcnt;  // 现有的连接块的总数
 }zv_reactor;
 
-// reactor初始化
+// reactor初始化，创建epoll实例和第一个连接块
 int init_reactor(zv_reactor *reactor);
-// reator销毁
+
+// reator销毁，关闭epoll文件描述符，释放所有分配的资源
 void destory_reactor(zv_reactor* reactor);
-// 服务端初始化：将端口设置为listen状态
+
+// 服务端初始化，创建监听socket，并设置为非阻塞模式
 int init_sever(int port);
-// 将本地的listenfd添加进epoll
+
+// 将本地的listenfd添加进epoll，等待连接事件
 int set_listener(zv_reactor *reactor, int listenfd, ZV_CALLBACK cb);
-// 创建一个新的连接块（尾插法）
+
+// 创建一个新的连接块（尾插法），用于存储更多的连接
 int zv_create_connblock(zv_reactor* reactor);
+
 // 根据fd从连接块中找到连接所在的位置
 // 逻辑：整除找到所在的连接块、取余找到在连接块的位置
 zv_connect* zv_connect_idx(zv_reactor* reactor, int fd);
+
 // 运行kv存储协议
 int kv_run_while(int argc, char *argv[]);
 /*-------------------------------------------------------*/

@@ -11,9 +11,9 @@ typedef struct kv_array_item_s{
 
 // 存储整个元素的块
 typedef struct kv_array_block_s{
-    struct kv_array_block_s* next;
-    kv_array_item_t* items;  // 数组大小为 kv_array_block_size
-    int count;  // 当前块存储的kv数量，最大为kv_array_block_size
+    struct kv_array_block_s* next;  // 每个块都指向下一个块，形成一个链表
+    kv_array_item_t* items;         // 数组大小为 kv_array_block_size
+    int count;                      // 当前块存储的kv数量，最大为kv_array_block_size
 }kv_array_block_t;
 
 // array结构类型头
@@ -31,6 +31,9 @@ int kv_array_init(kv_array_t* kv_a);
 // 参数：kv_a要传地址
 // 返回值：0成功，-1失败
 int kv_array_desy(kv_array_t* kv_a);
+
+// -----------------增删改查-----------------
+
 // 插入指令：有就报错，没有就创建
 // 返回值：0表示成功、-1表示失败、-2表示已经有key
 int kv_array_set(kv_array_t* kv_a, char** tokens);

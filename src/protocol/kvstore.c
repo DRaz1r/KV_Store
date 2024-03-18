@@ -138,7 +138,7 @@ int kv_parser_cmd(char** tokens, int num_tokens){
         return KV_CMD_ERROR;
     }
     int idx = 0;
-    for(idx=KV_CMD_START; idx<KV_CMD_ERROR; idx++){
+    for(idx = KV_CMD_START; idx < KV_CMD_ERROR; idx ++ ){
         if(strcmp(tokens[0], KV_COMMAND[idx].cmd) == 0){
             if(KV_COMMAND[idx].argc == num_tokens-1){
                 break;

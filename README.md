@@ -1,3 +1,15 @@
+## 构建项目
+创建一个新的构建目录并进入它：
+``mkdir build && cd build``
+
+从CMake配置生成Makefile：
+``cmake ..``
+
+使用生成的Makefile构建项目：
+``make``
+
+build目录下生成两个可执行文件：server和client
+
 ```
 ProjectRoot/
   ├── src/

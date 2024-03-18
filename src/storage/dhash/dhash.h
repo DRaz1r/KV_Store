@@ -2,7 +2,7 @@
 #define _DHASH_H
 
 // 键值对类型
-// 独热码：注意下面只能选一个！！！
+// 独热码
 #define KV_DHTYPE_INT_INT    0    // int key, int value
 #define KV_DHTYPE_CHAR_CHAR  1    // char* key, char* value
 

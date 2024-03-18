@@ -53,11 +53,11 @@ int kv_array_exist(kv_array_t* kv_a, char** tokens);
 //  cur_blk：传一个没有定义的块！用于返回当前kv存储对所在的块
 // 返回值：正常返回键值对，NULL表示没有
 kv_array_item_t* kv_array_search(kv_array_t* kv_a, const char* key, kv_array_block_t* cur_blk){
-    if(kv_a==NULL || key==NULL) return NULL;
+    if(kv_a == NULL || key == NULL) return NULL;
     
     cur_blk = kv_a->head;
     while (cur_blk != NULL){
-        for(int idx = 0; idx<kv_array_block_size; idx++){
+        for(int idx = 0; idx < kv_array_block_size; idx ++) {
             if(cur_blk->items[idx].key != NULL && 0 == strcmp(cur_blk->items[idx].key, key)){
                 return &(cur_blk->items[idx]);
             }
@@ -148,7 +148,7 @@ kv_array_item_t* kv_array_find_null(kv_array_t* kv_a, kv_array_block_t* cur_blk)
     kv_array_block_t* last_blk = kv_a->head;
     // 寻找所有非空块的空闲位置
     while (cur_blk != NULL){
-        for(int idx=0; idx<kv_array_block_size; idx++){
+        for(int idx = 0; idx < kv_array_block_size; idx ++ ) {
             if(cur_blk->items[idx].key == NULL && cur_blk->items[idx].value == NULL){
                 return &(cur_blk->items[idx]);
             }
